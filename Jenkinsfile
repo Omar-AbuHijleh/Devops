@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('git') {
             steps {
-                echo 'Building..'
+		git branch: 'main', credentialsId: 'f9e36d84-d996-469a-9fb1-2d1d6b68705f', url: 'https://github.com/Omar-AbuHijleh/Devops'
             }
         }
-        stage('Test') {
+        stage('build') {
             steps {
-                echo 'Testing..'
+                sh 'docker build -i image -from-jeckins:v1'
             }
         }
         stage('Deploy') {
