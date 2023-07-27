@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script{
-                    def customImageTag = "omarabuhejleh/orange-httpd:omar-v1"
+                    def customImageTag = "omarabuhejleh/orange-httpd:omar"
                     docker.build(customImageTag,'.')
                 }
             }
@@ -19,7 +19,7 @@ pipeline {
         stage('Push docker image') {
             steps {
                 script{
-                    def customImageTag = "omarabuhejleh/orange-httpd:omar-v1"
+                    def customImageTag = "omarabuhejleh/orange-httpd:omar"
                     withDockerRegistry(credentialsId: '40efb7c1-dc58-4be9-b147-26dffac372b4') {
                         docker.image(customImageTag).push()
                     }
