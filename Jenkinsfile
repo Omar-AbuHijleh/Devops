@@ -9,7 +9,7 @@ pipeline {
         }
         stage('build') {
             steps {
-                sh 'docker build -i image -from-jeckins:v1'
+                sh 'docker build -t image -from-jenkins:v1'
             }
         }
         stage('Deploy') {
