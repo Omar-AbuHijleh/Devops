@@ -2,19 +2,28 @@ pipeline {
     agent any
 
     stages {
-        stage('git') {
+        stage('Build') {
             steps {
-		git branch: 'main', credentialsId: 'f9e36d84-d996-469a-9fb1-2d1d6b68705f', url: 'https://github.com/Omar-AbuHijleh/Devops'
+                // make git clone
+		git branch: 'main', credentialsId: 'f8d0588e-9bb2-4023-9788-75eaa1808c0a', url: 'https://github.com/Omar-AbuHijleh/Devops.git'
             }
         }
-        stage('build') {
+        stage('Build Docker Image') {
             steps {
-                sh 'docker build -t image-from-jenkins:v1 .'
+                script{
+                    def customImageTag = "omarabuhejleh/orange-httpd:omar"
+                    docker.build(customImageTag,'.')
+                }
             }
         }
-        stage('Deploy') {
+        stage('Push docker image') {
             steps {
-                echo 'Deploying....'
+                script{
+                    def customImageTag = "omarabuhejleh/orange-httpd:omar"
+                    withDockerRegistry(credentialsId: '40efb7c1-dc58-4be9-b147-26dffac372b4') {
+                        docker.image(customImageTag).push()
+                    }
+                }
             }
         }
     }
